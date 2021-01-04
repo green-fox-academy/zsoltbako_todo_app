@@ -11,41 +11,60 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        /*List<String> content = new ArrayList();
-        content.add("Kutyát sétáltatni");
-        content.add("Tejet venni");
-        content.add("Megcsinálni a leckét");
+        ArrayList<TodoItem> todoList = new ArrayList();
 
-        try {
-            Path filePath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\todos.txt");
-            Files.write(filePath, content);
-        } catch (Exception e) {
-            System.out.println("Uh-oh, could not write the file!");
-        }*/
+        Path todosPath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\todos.txt");
+        List<String> todosLines = Files.readAllLines(todosPath);
+
+        for (int i = 0; i < todosLines.size(); i++) {
+            TodoItem todoItem = new TodoItem(todosLines.get(i));
+            if (todosLines.get(i).length() > 0) {
+                todoList.add(todoItem);
+            }
+        }
 
         if (args.length > 0) {
-            System.out.println("Hello" + args[0]);
+            System.out.println("CLI argument: " + args[0]);
 
             if (args[0].equals("-l")) {
-                Path todosPath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\todos.txt");
-                List<String> todoLines = Files.readAllLines(todosPath);
-
-                if (todoLines.size() == 0 || todoLines.get(0).length() == 0 ) {
+                //Print todos
+                if (todoList.size() == 0) {
                     System.out.println("Nincs mára tennivalód! :)");
                 } else {
-                    for (int i = 0; i < todoLines.size(); i++) {
-                        System.out.println(i + 1 + " - " + todoLines.get(i));
+                    for (int i = 0; i < todoList.size(); i++) {
+                        System.out.println((i + 1) + " - " + todoList.get(i).name);
                     }
                 }
+            } else if (args[0].equals("-a")) {
+                //Add new todo item
+                todoList.add(new TodoItem(args[1]));
+                OverwriteTodosFile(todoList);
             }
 
         } else {
-            Path manualPath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\manual.txt");
-            List<String> manualLines = Files.readAllLines(manualPath);
+            PrintManual();
+        }
+    }
 
-            for (int i = 0; i < manualLines.size(); i++) {
-                System.out.println(manualLines.get(i));
+    public static void PrintManual() throws IOException {
+        Path manualPath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\manual.txt");
+        List<String> manualLines = Files.readAllLines(manualPath);
+
+        for (int i = 0; i < manualLines.size(); i++) {
+            System.out.println(manualLines.get(i));
+        }
+    }
+
+    public static void OverwriteTodosFile(ArrayList<TodoItem> todoList) {
+        try {
+            Path filePath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\todos.txt");
+            List<String> todoListString = new ArrayList();
+            for (int i = 0; i < todoList.size(); i++) {
+                todoListString.add(todoList.get(i).name);
             }
+            Files.write(filePath, todoListString);
+        } catch (Exception e) {
+            System.out.println("Uh-oh, could not write the file!");
         }
     }
 }
