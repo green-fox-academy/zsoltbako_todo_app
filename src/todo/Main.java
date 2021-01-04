@@ -46,6 +46,10 @@ public class Main {
                 todoList.remove(parseInt(args[1])-1);
                 System.out.println(todoList.size());
                 OverwriteTodosFile(todoList);
+            } else {
+                System.out.println("Nem támogatott argumantum!");
+                System.out.println("=============================");
+                PrintManual();
             }
 
         } else {
