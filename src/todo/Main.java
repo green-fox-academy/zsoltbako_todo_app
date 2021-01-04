@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -38,6 +40,11 @@ public class Main {
             } else if (args[0].equals("-a")) {
                 //Add new todo item
                 todoList.add(new TodoItem(args[1]));
+                OverwriteTodosFile(todoList);
+            } else if (args[0].equals("-r")) {
+                //Remove todo item
+                todoList.remove(parseInt(args[1])-1);
+                System.out.println(todoList.size());
                 OverwriteTodosFile(todoList);
             }
 
