@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> content = new ArrayList();
+        /*List<String> content = new ArrayList();
         content.add("Kutyát sétáltatni");
         content.add("Tejet venni");
         content.add("Megcsinálni a leckét");
@@ -21,7 +21,7 @@ public class Main {
             Files.write(filePath, content);
         } catch (Exception e) {
             System.out.println("Uh-oh, could not write the file!");
-        }
+        }*/
 
         if (args.length > 0) {
             System.out.println("Hello" + args[0]);
@@ -30,8 +30,12 @@ public class Main {
                 Path todosPath = Paths.get("C:\\Users\\zsolt\\code\\greenfox\\todo_app\\todos.txt");
                 List<String> todoLines = Files.readAllLines(todosPath);
 
-                for (int i = 0; i < todoLines.size(); i++) {
-                    System.out.println(i+1 + " - " + todoLines.get(i));
+                if (todoLines.size() == 0 || todoLines.get(0).length() == 0 ) {
+                    System.out.println("Nincs mára tennivalód! :)");
+                } else {
+                    for (int i = 0; i < todoLines.size(); i++) {
+                        System.out.println(i + 1 + " - " + todoLines.get(i));
+                    }
                 }
             }
 
